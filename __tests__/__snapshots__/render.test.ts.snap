@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`collapsing the safe section breaking and dangerous 1`] = `
+"### Breaking schema change
+
+1 breaking · 1 dangerous · 0 safe
+
+#### Breaking
+
+- \`BreakingType.field000\` removed
+
+#### Dangerous
+
+- \`DangerousType.field000\` added to enum
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section breaking and safe 1`] = `
+"### Breaking schema change
+
+1 breaking · 0 dangerous · 2 safe
+
+#### Breaking
+
+- \`BreakingType.field000\` removed
+
+<details><summary>2 safe changes</summary>
+
+- \`SafeType.field000\` added
+- \`SafeType.field001\` added
+
+</details>
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section breaking only 1`] = `
+"### Breaking schema change
+
+2 breaking · 0 dangerous · 0 safe
+
+#### Breaking
+
+- \`BreakingType.field000\` removed
+- \`BreakingType.field001\` removed
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section breaking, dangerous and safe 1`] = `
+"### Breaking schema change
+
+1 breaking · 1 dangerous · 2 safe
+
+#### Breaking
+
+- \`BreakingType.field000\` removed
+
+#### Dangerous
+
+- \`DangerousType.field000\` added to enum
+
+<details><summary>2 safe changes</summary>
+
+- \`SafeType.field000\` added
+- \`SafeType.field001\` added
+
+</details>
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section dangerous and safe 1`] = `
+"### Schema changed, nothing breaking
+
+0 breaking · 1 dangerous · 2 safe
+
+#### Dangerous
+
+- \`DangerousType.field000\` added to enum
+
+<details><summary>2 safe changes</summary>
+
+- \`SafeType.field000\` added
+- \`SafeType.field001\` added
+
+</details>
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section dangerous only 1`] = `
+"### Schema changed, nothing breaking
+
+0 breaking · 2 dangerous · 0 safe
+
+#### Dangerous
+
+- \`DangerousType.field000\` added to enum
+- \`DangerousType.field001\` added to enum
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section one safe change among others 1`] = `
+"### Breaking schema change
+
+1 breaking · 0 dangerous · 1 safe
+
+#### Breaking
+
+- \`BreakingType.field000\` removed
+
+<details><summary>1 safe change</summary>
+
+- \`SafeType.field000\` added
+
+</details>
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`collapsing the safe section safe only 1`] = `
+"### Schema changed, nothing breaking
+
+0 breaking · 0 dangerous · 2 safe
+
+#### Safe
+
+- \`SafeType.field000\` added
+- \`SafeType.field001\` added
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`the comment budget drops lines from the bottom, safe first, then dangerous, never breaking 1`] = `
+"### Breaking schema change
+
+3 breaking · 5 dangerous · 50 safe
+
+#### Breaking
+
+- \`BreakingType.field000\` removed
+- \`BreakingType.field001\` removed
+- \`BreakingType.field002\` removed
+
+#### Dangerous
+
+- \`DangerousType.field000\` added to enum
+- \`DangerousType.field001\` added to enum
+
+53 more changes not shown. See the [job summary](https://github.com/acme/api/actions/runs/1) for the full report.
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`whole-file events renders a new schema with its inventory 1`] = `
+"### New schema
+
+4 types · 1 interface · 2 enums · 1 scalar
+
+\`schema.graphql\` is new: it does not exist at the merge-base.
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`whole-file events renders a removed schema as one breaking change 1`] = `
+"### Schema removed
+
+1 breaking · 0 dangerous · 0 safe
+
+\`schema.graphql\` exists at the merge-base and is absent at the head commit.
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
