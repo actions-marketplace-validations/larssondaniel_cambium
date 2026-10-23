@@ -1,6 +1,6 @@
 # v1 design decisions
 
-Running log from the design session. Input to the v1 spec, published as larssondaniel/graphql-schema-diff-action#1. ADRs hold the reasoning for the hard-to-reverse ones; this file holds the rest.
+Running log from the design session. Input to the v1 spec, published as larssondaniel/cambium#1. ADRs hold the reasoning for the hard-to-reverse ones; this file holds the rest.
 
 1. **Schemas are committed files**, read at the PR's base and head. The action never generates or introspects. (ADR-0001)
 2. **Fetched via the Contents API**, no `actions/checkout` required or used. (ADR-0002)

@@ -4,7 +4,7 @@
 
 ### Issue tracker
 
-Issues are tracked as GitHub Issues on larssondaniel/graphql-schema-diff-action via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues are tracked as GitHub Issues on larssondaniel/cambium via the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
