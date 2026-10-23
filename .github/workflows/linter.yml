@@ -58,3 +58,6 @@ jobs:
           VALIDATE_JSCPD: false
           VALIDATE_TYPESCRIPT_ES: false
           VALIDATE_JSON: false
+          # textlint's terminology rule rewrites this repository's own
+          # vocabulary ("repo", "README", "git") in the design documents.
+          VALIDATE_NATURAL_LANGUAGE: false

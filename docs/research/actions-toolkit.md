@@ -22,7 +22,7 @@ Sources are primary only: docs.github.com, the GitHub Changelog (github.blog/cha
 The `packages/` directory of [actions/toolkit](https://github.com/actions/toolkit/tree/main/packages) contains: `artifact, attest, cache, core, exec, github, glob, http-client, io, tool-cache`. The descriptions below are paraphrased from the [toolkit README](https://github.com/actions/toolkit#packages). Versions are npm `latest` as of 2026-10-23 (`npm view <pkg> version`, [npmjs.com](https://www.npmjs.com/package/@actions/core)).
 
 | Package | npm latest | What it does |
-|---|---|---|
+| --- | --- | --- |
 | `@actions/core` | 3.0.1 | Inputs, outputs, results, logging, secrets, variables, job summary |
 | `@actions/github` | 9.1.1 | An Octokit client hydrated with the run context (`context`, `getOctokit`) |
 | `@actions/exec` | 3.0.0 | Runs CLI tools and processes their output |

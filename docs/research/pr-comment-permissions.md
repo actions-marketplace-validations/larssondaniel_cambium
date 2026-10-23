@@ -130,7 +130,7 @@ Researched 2026-10-23 from primary sources (docs.github.com, github.blog changel
 ## 6. Alternatives to a PR comment
 
 | Mechanism | Permission | Works on fork `pull_request`? | Notes / source |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Job summary (`GITHUB_STEP_SUMMARY`) | None (it is a file written on the runner) | Yes. No token is needed, so the read-only downgrade does not matter (inferred). | GFM supported. 1 MiB per step; over that, the upload fails with an error annotation. Max 20 step summaries shown per job. Visible on the run summary page, not in the PR conversation. https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#adding-a-job-summary |
 | Workflow-command annotations (`::warning file=...::`) | None | Yes (inferred: no API call by the action) | Attached to files and lines, and shown in the PR "Files changed" tab. GitHub Actions limits them to "10 warning annotations and 10 error annotations per step". https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands and https://docs.github.com/en/rest/checks/runs |
 | Check run via Checks API, with `output.summary` and annotations | `checks: write`. "Write permission for the REST API to interact with checks is only available to GitHub Apps" (`GITHUB_TOKEN` qualifies). | **No.** Write scopes are downgraded to read on fork PRs (general rule in §3). Use `workflow_run` instead. | `output.summary` and `output.text` max 65,535 characters each. 50 annotations per request (send more via update). Tied to a `head_sha`. https://docs.github.com/en/rest/checks/runs |

@@ -99,7 +99,7 @@ Researched 2026-10-23 against primary sources (GitHub API via `gh`, GitHub Marke
 Search: https://github.com/marketplace?type=actions&query=graphql+schema
 
 | Action | Source | What / output | PR comment? | Backend | Last push | License |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | Detect Breaking GraphQL Changes (https://github.com/marketplace/actions/detect-breaking-graphql-changes) | https://github.com/felamaslen/detect-breaking-graphql-changes | graphql-js breaking/dangerous detection. Emits `core.error` / `core.warning` workflow annotations and fails on breaking changes | No | No | 2026-07-20 | MIT (package.json); 0 stars |
 | Graphql Inspector Federated Schemas Action (https://github.com/marketplace/actions/graphql-inspector-federated-schemas-action) | https://github.com/mohammedtigrini1/federated-graphql-inspector-action | Concatenates subgraph schemas, then runs Inspector | No (Inspector checks) | No | 2022-09-20 | none declared |
 | Nitro Schema Validate (https://github.com/marketplace/actions/nitro-schema-validate) | https://github.com/ChilliCream/nitro-schema-validate | Validates against ChilliCream's Nitro registry | **UNVERIFIED** | Yes (Nitro) | 2026-10-23 | MIT |

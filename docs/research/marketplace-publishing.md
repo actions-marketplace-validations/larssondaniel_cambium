@@ -20,7 +20,7 @@ Sources are primary only: docs.github.com, github.blog, github.com/github/roadma
 ## 1. Requirements to publish
 
 | Requirement | Finding | Source |
-|---|---|---|
+| --- | --- | --- |
 | Public repo | "The action must be in a public repository." | https://docs.github.com/en/actions/how-tos/create-and-publish-actions/publish-in-github-marketplace |
 | `action.yml` at root | "Each repository must contain a single action metadata file (`action.yml` or `action.yaml`) at the root." Metadata files in subfolders are allowed but are not listed automatically. | same |
 | Unique name | See section 2. | same |
