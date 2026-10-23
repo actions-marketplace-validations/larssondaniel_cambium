@@ -33,6 +33,7 @@ Researched 2026-10-23 from primary sources (docs.github.com, github.blog changel
   - marocchino/sticky-pull-request-comment README: https://github.com/marocchino/sticky-pull-request-comment
   - thollander/actions-comment-pull-request README ("this actions needs at least: pull-requests: write"): https://github.com/thollander/actions-comment-pull-request
 - Recommended README block:
+
   ```yaml
   permissions:
     contents: read        # only if the job uses actions/checkout
@@ -50,6 +51,7 @@ Researched 2026-10-23 from primary sources (docs.github.com, github.blog changel
 ## 3. `pull_request` vs `pull_request_target`, and fork PRs
 
 ### `pull_request` from a fork
+
 - "With the exception of `GITHUB_TOKEN`, secrets are not passed to the runner when a workflow is triggered from a forked repository. The `GITHUB_TOKEN` has read-only permissions in pull requests from forked repositories." https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflows-in-forked-repositories
 - "You can use the `permissions` key to add and remove read permissions for forked repositories, but typically you can't grant write access." The exception is the admin setting **Send write tokens to workflows from pull requests**. https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#changing-the-permissions-in-a-forked-repository
 - That setting (and "Send secrets to workflows from pull requests") exists **for private repositories only**: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#enabling-workflows-for-forks-of-private-repositories
@@ -57,11 +59,13 @@ Researched 2026-10-23 from primary sources (docs.github.com, github.blog changel
 - The practical effect is that a comment step on a public repo's fork PR returns 403 "Resource not accessible by integration". thollander documents this: "if the PR comes from a fork, it will have only read permission despite the permissions given in the action for the `pull_request` event." https://github.com/thollander/actions-comment-pull-request . The exact 403 message text is **UNVERIFIED** from GitHub docs.
 
 ### What `pull_request_target` changes
+
 - It "runs in the context of the default branch of the base repository, rather than in the context of the merge commit... This event allows your workflow to do things like label or comment on pull requests from forks. Avoid using this event if you need to build or run code from the pull request." https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request_target
 - Under `pull_request_target`, "the GITHUB_TOKEN is granted read/write repository permission, even when it is triggered from a public fork", and the workflow can access secrets. https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax and https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target
 - Since 2025-12-08, the workflow file and checkout commit always come from the repository's **default** branch, whatever the PR's base branch. https://github.blog/changelog/2025-11-07-actions-pull_request_target-and-environment-branch-protections-changes/
 
 ### The pwn-request hazard
+
 - The insecure pattern is `pull_request_target` plus `actions/checkout` with `ref: ${{ github.event.pull_request.head.sha }}`, followed by any step that runs the checked-out code (`make test`, `npm install`, build scripts, config files). That code then runs with the base repo's secrets and write token. https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target and https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/ (Security Lab, 2021-08-03)
 - The same hazard applies to `workflow_run` and `issue_comment` workflows that fetch and run fork code. "A `workflow_run` workflow should treat artifacts uploaded by other workflows as untrusted data." https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target
 - **New 2026 protections:**
@@ -70,11 +74,13 @@ Researched 2026-10-23 from primary sources (docs.github.com, github.blog changel
   - **Implication:** a README that tells users to switch to `pull_request_target` will stop working by default on public repos after enforcement, unless they create an allow policy.
 
 ### What reputable comment actions recommend
+
 - **thollander/actions-comment-pull-request:** for fork PRs, "you may use the `pull_request_target` event". It gives no security caveat beyond noting that the code runs from the target branch. https://github.com/thollander/actions-comment-pull-request
 - **marocchino/sticky-pull-request-comment:** its README has no fork-specific guidance (it covers only permissions and new-repo defaults). https://github.com/marocchino/sticky-pull-request-comment
 - **GitHub Security Lab and GitHub docs** recommend: "Use `pull_request` unless the workflow truly needs write access or secrets", and split privileged and unprivileged work across two workflows. https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/ and https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target#deciding-whether-to-use-pull_request_target
 
 ### Is the two-workflow pattern still recommended?
+
 - **Yes.** The current events docs carry the canonical example. An "Upload data" workflow on `pull_request` writes the PR number to an artifact. A "Use the data" workflow on `workflow_run` (`types: [completed]`, `permissions: actions: read, issues: write`) downloads it into `${{ runner.temp }}` ("do not extract in the workspace dir that may contain executable scripts"), checks that the PR number is an integer, and calls `issues.createComment`. https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#using-data-from-the-triggering-workflow
 - "The workflow started by the `workflow_run` event is able to access secrets and write tokens, even if the previous workflow was not." https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run
 - Caveats from the same page:
@@ -143,6 +149,7 @@ Recommendation implied by the table: always write the job summary (free, works o
   https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore
 - Caveat (inferred): with a `paths` filter, if a later push removes the schema change, the workflow does not run and the old sticky comment goes stale. The same happens when the schema is generated from code and not committed. Consider also including the generator inputs, or skipping `paths`.
 - Suggested README snippet (same-repo PRs):
+
   ```yaml
   on:
     pull_request:
@@ -153,4 +160,5 @@ Recommendation implied by the table: always write the job summary (free, works o
     contents: read
     pull-requests: write
   ```
+
 - For fork PRs on public repos, document the two-workflow variant (§3). Do **not** recommend `pull_request_target` with a checkout of the PR head. The new default policy will also block `pull_request_target` on public repos.

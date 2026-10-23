@@ -1,0 +1,43 @@
+# Keeps the floating major tag (`v1`) pointed at the latest release, so that
+# `uses: larssondaniel/cambium@v1` picks up fixes without a workflow edit.
+#
+# Releases are `vX.Y.Z` GitHub releases created by hand. The major tag is a
+# plain git tag, never a release, so it can be moved even when immutable
+# releases are enabled.
+name: Move major tag
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  move:
+    name: Point major tag at release
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.release.prerelease }}
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v6
+
+      - name: Move tag
+        id: move
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          case "$TAG" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *)
+              echo "Release tag '$TAG' is not vX.Y.Z; leaving major tags alone."
+              exit 0
+              ;;
+          esac
+          major="${TAG%%.*}"
+          git tag --force "$major" "$TAG"
+          git push --force origin "$major"
+          echo "Moved $major to $TAG."

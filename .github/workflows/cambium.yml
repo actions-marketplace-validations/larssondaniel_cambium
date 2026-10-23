@@ -1,0 +1,39 @@
+# Cambium runs on its own pull requests against a fixture schema, so that the
+# Octokit adapter is proven end to end and the README shows a real comment.
+# The fixture exists to be changed: a pull request that edits
+# dogfood/schema.graphql gets a comment describing the edit.
+name: Cambium
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  schema-diff:
+    name: Schema diff
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout is needed only to run the action from this repository (`uses: ./`).
+      # Cambium itself reads the schema file through the GitHub API.
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v6
+
+      - name: Run Cambium
+        id: cambium
+        uses: ./
+        with:
+          schema: dogfood/schema.graphql
+          # Dogfood pull requests break the fixture on purpose.
+          fail-on: never
+
+      - name: Print outputs
+        id: outputs
+        run: |
+          echo "breaking=${{ steps.cambium.outputs.breaking-count }}"
+          echo "dangerous=${{ steps.cambium.outputs.dangerous-count }}"
+          echo "safe=${{ steps.cambium.outputs.safe-count }}"

@@ -35,6 +35,7 @@ The `packages/` directory of [actions/toolkit](https://github.com/actions/toolki
 | `@actions/attest` | 3.2.0 | Writes attestations for workflow artifacts |
 
 Notes:
+
 - **ESM-only.** `@actions/core` 3.0.0 says "Package is now ESM-only - CommonJS consumers must use dynamic `import()`" ([core RELEASES](https://github.com/actions/toolkit/blob/main/packages/core/RELEASES.md)). `@actions/github` 9.0.0 ([github RELEASES](https://github.com/actions/toolkit/blob/main/packages/github/RELEASES.md)), `@actions/exec` 3.0.0 ([exec RELEASES](https://github.com/actions/toolkit/blob/main/packages/exec/RELEASES.md)) and `@actions/glob` 0.6.0 ([glob RELEASES](https://github.com/actions/toolkit/blob/main/packages/glob/RELEASES.md)) say the same. Each `package.json` has `"type": "module"`.
 - Node 24 support arrived in core 2.0.0 and exec 2.0.0 ([core RELEASES](https://github.com/actions/toolkit/blob/main/packages/core/RELEASES.md)).
 - The repo's `packages/core/package.json` already says **3.1.0**, which adds `core.declareArtifact`. npm `latest` is still 3.0.1 (published 2026-04-21), so 3.1.0 is not released on npm yet ([core RELEASES](https://github.com/actions/toolkit/blob/main/packages/core/RELEASES.md); `npm view @actions/core dist-tags`).
@@ -80,6 +81,7 @@ const { owner, repo } = github.context.repo
 ## 4. `action.yml` metadata
 
 From [metadata syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax):
+
 - `inputs.<id>`: `description` (required string), `required` (optional boolean), `default` (string, used when the workflow does not specify the input), `deprecationMessage` (optional, logged as a warning when the input is used).
 - `outputs.<id>`: `description` (required). For JavaScript actions there is no `value`; outputs are set at runtime with `core.setOutput`.
 - `runs`: `using` (`node20` | `node24`; use node24, see section 2), `main`, and optional `pre`, `pre-if`, `post`, `post-if` (the `-if` keys default to `always()`).
@@ -90,7 +92,7 @@ From [metadata syntax](https://docs.github.com/en/actions/reference/workflows-an
 ## 5. Testing and local runs
 
 - **Test runner: Jest** (not Vitest). The template uses `jest ^30.2`, `ts-jest`, `ts-jest-resolver` and `@jest/globals`, and runs `NODE_OPTIONS=--experimental-vm-modules npx jest` ([package.json](https://github.com/actions/typescript-action/blob/main/package.json)). In `jest.config.js`: `preset: 'ts-jest'`, `extensionsToTreatAsEsm: ['.ts']`, ts-jest `useESM: true`, `resolver: 'ts-jest-resolver'`, `testEnvironment: 'node'`, coverage on `./src/**` ([jest.config.js](https://github.com/actions/typescript-action/blob/main/jest.config.js)).
-- **Mocking `@actions/core`:** `__fixtures__/core.ts` exports `jest.fn<typeof core.X>()` for `debug, error, info, getInput, setOutput, setFailed, warning` ([__fixtures__/core.ts](https://github.com/actions/typescript-action/blob/main/__fixtures__/core.ts)). The test calls `jest.unstable_mockModule('@actions/core', () => core)` *before* `const { run } = await import('../src/main.js')`. The comment says "Mocks should be declared before the module being tested is imported" ([__tests__/main.test.ts](https://github.com/actions/typescript-action/blob/main/__tests__/main.test.ts)). Mocking `@actions/github` and `core.summary` would follow the same pattern; the template has no fixture for either.
+- **Mocking `@actions/core`:** `__fixtures__/core.ts` exports `jest.fn<typeof core.X>()` for `debug, error, info, getInput, setOutput, setFailed, warning` ([`__fixtures__/core.ts`](https://github.com/actions/typescript-action/blob/main/__fixtures__/core.ts)). The test calls `jest.unstable_mockModule('@actions/core', () => core)` *before* `const { run } = await import('../src/main.js')`. The comment says "Mocks should be declared before the module being tested is imported" ([`__tests__/main.test.ts`](https://github.com/actions/typescript-action/blob/main/__tests__/main.test.ts)). Mocking `@actions/github` and `core.summary` would follow the same pattern; the template has no fixture for either.
 - **Local runs: `@github/local-action`** v7.0.1 ([npm](https://www.npmjs.com/package/@github/local-action), [repo](https://github.com/github/local-action)). It stubs the toolkit so `src/` runs directly: `npx @github/local-action . src/main.ts .env` (template script `local-action`). It supports `--pre`/`--post` entrypoints. Inputs go in `.env` as `INPUT_<name>` with hyphens kept, and `GITHUB_EVENT_PATH` etc. can be set there ([.env.example](https://github.com/actions/typescript-action/blob/main/.env.example)). Caveats from its README:
   - It supports "non-transpiled action code only" because it uses `quibble` to override toolkit imports.
   - It is tested on Node 22 and 24.
@@ -99,6 +101,7 @@ From [metadata syntax](https://docs.github.com/en/actions/reference/workflows-an
 ## 6. Reading a file from the PR base ref without a full checkout
 
 **Option A: REST contents API** (no checkout needed). `octokit.rest.repos.getContent({ owner, repo, path, ref: pr.base.sha })`. `ref` is "The name of the commit/branch/tag. Default: the repository's default branch" ([contents API](https://docs.github.com/en/rest/repos/contents)). Size behavior, quoted from that page:
+
 - "1 MB or smaller: All features of this endpoint are supported."
 - "Between 1-100 MB: Only the raw or object custom media types are supported... when using the object media type, the content field will be an empty string and the encoding field will be "none"." Use `application/vnd.github.raw+json` to get the bytes.
 - "Greater than 100 MB: This endpoint is not supported." Use another method, such as the Git blobs API or a checkout. The blobs API limit is **UNVERIFIED**.

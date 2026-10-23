@@ -31,13 +31,15 @@ Researched 2026-10-23 against primary sources (GitHub API via `gh`, GitHub Marke
 - **Output format:**
   - Check title: `'Something is wrong with your schema.'` on failure, `'Everything looks good'` otherwise (run.ts, around line 239).
   - Summary (`createSummary`, https://github.com/graphql-hive/graphql-inspector/blob/master/packages/action/src/utils.ts):
-    ```
+
+    ```text
     # Found N changes
 
     Breaking: x
     Dangerous: y
     Safe: z
     ```
+
     The summary is followed by change lists, capped at 100. Past the cap, the summary says "Total amount of changes (…) is over the limit (100)".
   - Per-change inline annotations on the `.graphql` file. Severity is filterable with `annotation-level`.
 - **Backend needed?** No. It runs on git plus the GitHub Checks API.
@@ -177,6 +179,7 @@ Method: Marketplace search (`https://github.com/marketplace?type=actions&query=<
    - Verdict: **clear for Marketplace/action use**, soft on bare npm.
 
 Considered and rejected:
+
 - **Scion**: GoogleCloudPlatform/scion has 2k stars, and there is SCION networking and a git-for-agents tool. Hard.
 - **Heartwood**: Radicle's git-based stack. Soft to hard.
 - **Sprig**: Masterminds/sprig has 4.7k stars, plus hackclub/sprig. Hard.

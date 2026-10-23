@@ -1,0 +1,32 @@
+"""
+A person with an account.
+"""
+type User {
+  id: ID!
+  name: String
+  email: String
+  contact: Contact
+}
+
+type Contact {
+  email: String
+  phone: String
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+}
+
+type Order {
+  id: ID!
+  status: OrderStatus!
+  customer: User!
+}
+
+type Query {
+  user(id: ID!): User
+  orders(status: OrderStatus): [Order!]!
+  search(term: String!): [User!]!
+}
