@@ -21,7 +21,7 @@ jobs:
       # Cambium itself reads the schema file through the GitHub API.
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Run Cambium
         id: cambium
