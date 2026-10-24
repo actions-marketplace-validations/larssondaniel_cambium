@@ -1,0 +1,30 @@
+# See: https://github.com/DavidAnson/markdownlint
+
+# Unordered list style
+MD004:
+  style: dash
+
+# Line length: prettier wraps the prose it owns; the design documents keep
+# their own line breaks.
+MD013: false
+
+# Inline HTML: the README shows the comment's <details> and <sub> markup.
+MD033: false
+
+# Ordered list item prefix: all ones, or counting up
+MD029:
+  style: one_or_ordered
+
+# Spaces after list markers
+MD030:
+  ul_single: 1
+  ol_single: 1
+  ul_multi: 1
+  ol_multi: 1
+
+# Code block style
+MD046:
+  style: fenced
+
+# Bare URLs: the research notes cite their primary sources as plain URLs.
+MD034: false

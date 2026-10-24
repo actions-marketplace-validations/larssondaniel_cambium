@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`a pull request that changes the schema expands the safe section when safe changes are all there is 1`] = `
+"### Schema changed, nothing breaking
+
+0 breaking · 0 dangerous · 3 safe
+
+#### Safe
+
+- \`Query.me\` added
+- \`User\` description changed: "A person with an account."
+- \`User.nickname\` added
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`a pull request that changes the schema posts the comment: verdict, counts, then sections by severity 1`] = `
+"### Breaking schema change
+
+1 breaking · 2 dangerous · 5 safe
+
+#### Breaking
+
+- \`User.email\` removed
+
+#### Dangerous
+
+- \`OrderStatus.REFUNDED\` added to enum
+- \`Query.search(sort:)\` optional argument added
+
+<details><summary>5 safe changes</summary>
+
+- \`Invoice\` type added
+- \`Query.invoices\` added
+- \`User.contact\` deprecated: "Use \`User.contact.email\`"
+- \`User.displayName\` added
+- \`User.name\` changed type from \`String\` to \`String!\`
+
+</details>
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`a pull request that leaves the schema unchanged updates an existing comment to "No schema changes" 1`] = `
+"### No schema changes
+
+\`schema.graphql\` is the same schema at the merge-base and at the head commit.
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`an absent or unparsable schema file reports a new schema with type counts when the file is absent at the merge-base 1`] = `
+"### New schema
+
+5 types · 1 enum
+
+\`schema.graphql\` is new: it does not exist at the merge-base.
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;
+
+exports[`an absent or unparsable schema file reports a removed schema as breaking when the file is absent at the head 1`] = `
+"### Schema removed
+
+1 breaking · 0 dangerous · 0 safe
+
+\`schema.graphql\` exists at the merge-base and is absent at the head commit.
+
+<sub>Cambium · [larssondaniel/cambium](https://github.com/larssondaniel/cambium)</sub>"
+`;

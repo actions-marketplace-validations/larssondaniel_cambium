@@ -1,0 +1,13 @@
+"""
+A person with an account.
+"""
+type User {
+  id: ID!
+  name: String
+  nickname: String
+}
+
+type Query {
+  user(id: ID!): User
+  me: User
+}

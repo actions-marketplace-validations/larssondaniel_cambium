@@ -1,0 +1,39 @@
+name: 'Cambium: GraphQL schema diff'
+description:
+  Diffs a committed GraphQL schema between a pull request's merge-base and head,
+  and reports breaking, dangerous and safe changes in one PR comment.
+author: Daniel Larsson
+
+branding:
+  icon: layers
+  color: green
+
+inputs:
+  schema:
+    description:
+      Path of the schema file in the repository, SDL or introspection JSON.
+    required: true
+  fail-on:
+    description:
+      Severity at or above which the step fails. One of `breaking`, `dangerous`
+      or `never`.
+    required: false
+    default: breaking
+  github-token:
+    description:
+      Token used to read the schema file and post the comment. Defaults to the
+      workflow token; pass a GitHub App token to post under another identity.
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  breaking-count:
+    description: Number of breaking changes.
+  dangerous-count:
+    description: Number of dangerous changes.
+  safe-count:
+    description: Number of safe changes.
+
+runs:
+  using: node24
+  main: dist/index.js
